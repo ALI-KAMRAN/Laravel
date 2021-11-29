@@ -59,30 +59,8 @@ return "<span class='badge badge-dark badge-pill'>Awating Approval</span>";
   ->make(true);
 
 
-    }
-
-
-
-    // edit 
-    public function editBlogView($id){
-$categories = category::all();
-$tags = tag::all();
-$blogs =blog::find($id);
-return view('adminSide.editBlogsView', compact('categories','tags','blogs'));
-
-
-    }
-
-
-      public function editBlogViews($id){
-$categories = category::all();
-$tags = tag::all();
-
-return view('adminSide.editBlogsView',compact('categories','tags'));
-
-
-    }
-
+    } 
+    
     public function create(Request $request){
         $user = Auth::user();
        $active = $request->active == 'on' ? '1' : '0';
@@ -149,30 +127,32 @@ public function deleteTags($id){
  // show awaiting approvel blogs list for admin
 
  public function getAwaitingApprovalBlogs(){
-    $blogs= blog::where('active', 0)->get();
-  return Datatables::of($blogs)
-  ->editColumn('user_id', function ($blogs){
-    return $blogs->user->name;
-})
-->editColumn('category_id', function ($blogs){
-    return $blogs->category->name;
-})
-  ->editColumn('short_description', function ($blog){
-          return Str::words($blog->short_description, 5 , '...');
-  })
-  ->editColumn('description', function ($blog){
-    return Str::words($blog->description, 7 , '...');
-})
-->editColumn('active', function ($blog){
-    if($blog->active == "1"){
-        return "<span class='badge badge-success badge-pill'>Active</span>";
-    }else{
-        return "<span class='badge badge-dark badge-pill'>Awating</span>";
-    }
-})
-->rawColumns(['active','description'])
-  ->make(true);
-
+    $blogs= blog::all();
+    return Datatables::of($blogs)
+    ->editColumn('user_id', function ($blog){
+            return $blog->user->name;
+    })
+    
+    ->editColumn('category_id', function ($blog){
+            return $blog->category->name;
+    })
+    ->editColumn('active', function ($blog){
+            if($blog->active == "1"){
+              return "<span class='badge badge-success badge-pill'>Active</span>";
+            }else{
+  return "<span class='badge badge-dark badge-pill'>Awating Approval</span>";
+  
+            }
+    })
+  
+    ->editColumn('short_description', function ($blog){
+            return Str::words($blog->short_description, 5, '.....');
+    })
+    ->editColumn('description', function ($blog){
+            return Str::words($blog->short_description, 5, '.....');
+    })
+    ->rawColumns(['description','active'])
+    ->make(true);
  }
 
 

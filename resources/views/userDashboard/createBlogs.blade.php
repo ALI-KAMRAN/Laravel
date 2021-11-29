@@ -19,9 +19,10 @@ Blogs
 @section('content')
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 ml-3 text-gray-800">User Dashboard   </h1> </div>
+                        <h1 class="h3 mb-0 ml-3 text-gray-800">User Dashboard   </h1> 
+                        <a href="{{url('/userDashboard')}}" class="btn btn-dark float-right btn-sm"  >Back to Dashboard</a></div>
                     <div class="row">
-
+                    
                  
 <div class="col-xl-12 col-lg-8">
 <div class="card-body">

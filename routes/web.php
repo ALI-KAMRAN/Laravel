@@ -150,7 +150,7 @@ Route::get("blog", [blogController::class, 'index']);
 Route::get("creatBlog", [blogController::class, 'createBlog']);
 Route::post("blogCreate", [blogController::class, 'create']);
 Route::post("getAllBlogs", [blogController::class, 'getAllBlogs']);
-Route::GET("editBlog/{id}", [blogController::class, 'editBlogViews']);
+Route::GET("/editBlog/{id}", [blogController::class, 'editBlogViews']);
 
 Route::GET("deleteBlogs/{id}", [blogController::class, 'deleteBlogs']);
 
@@ -166,11 +166,11 @@ Route::POST('passwordUpdate', [adminDashboard::class, 'passwordUpdate']);
 // awaiting approval blogs list for admin
 
 Route::GET("awaitingBlogs", [blogController::class, 'awaitingBlogs']);
-Route::POST("getAwaitingApprovalBlogs", [blogController::class, 'getAwaitingApprovalBlogs']);
+Route::POST("getAwaitingBlogs", [blogController::class, 'getAwaitingApprovalBlogs']);
 });
 });
 
 
-Auth::routes();
+Auth::routes(['verify' => true ]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

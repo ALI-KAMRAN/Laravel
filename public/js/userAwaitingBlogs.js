@@ -67,68 +67,7 @@ $(document).ready(function(){
     
     
     
-    //   // get category for update
-    //   $(document).on('click', '.editCategory', function(e){
-    //     e.preventDefault();
-    //     var id = $(this).attr('id');
-    //     $.ajax({
-    //       url : baseUrl+'/getCategory/'+id,
-    //       type : 'GET',
-    //       processData : false,
-    //       contentType : false,
-    //       success:function(data){
-    //         $('#Category_id').val(data.id);
-    //         $('#editCategory_name').val(data.name);
-    //         $('#editCategoryModal').modal('show');
-    //       },
-    //       error : function(data,textStatus,xhr)
-    //       { 
-    //         Swal.fire({
-    //           icon: 'error',
-    //           title:'not found',
-    //           text: 'sorry data was not found',
-    //         })
     
-    
-    //       },
-          
-    //     });
-    //   });
-    
-    //   //update category
-    
-    //   $('#editCategory').submit(function(e){
-    //     e.preventDefault();
-    //     var form = $('#editCategory')[0];
-    //     var formData = new FormData(form);
-    //     $.ajax({
-    //       url : baseUrl+'/updateCategory',
-    //       type: 'POST',
-    //       data: formData,
-    //       processData:false,
-    //       contentType:false,
-    //       success:function(data){
-    //         onSuccessRemoveEditErrors();
-    //         $('#editCategoryModal').modal('hide');
-    //         Swal.fire({
-    //           icon: 'success',
-    //           title:'Success',
-    //           text: 'Category was Updated successfully',
-    //         })
-    //         table.ajax.reload();
-    //       },
-    //       error : function(reject){
-    //         if(reject.status = 422){
-    //           refreshEditErrors();
-    //           var errors = $.parseJSON(reject.responseText);
-    //           $.each(errors.errors , function(key, value){
-    //             $('#'+key).addClass('is-invalid');
-    //             $('#'+ key + '_help').text(value[0]);
-    //           })
-    //         }
-    //       }
-    //     });
-    //   });
     
        // delete category
     
@@ -177,36 +116,5 @@ $(document).ready(function(){
     
 
 
-    //   // update error show
-    
-    //   function onSuccessRemoveEditErrors(){
-    //     $('#editCategory_name').removeClass('is-invalid');
-    //     $('#editCategory_name').val('');
-    //     $('#edit_category_help').text('');
-    //   }
-    //   function refreshEditErrors(){
-    //     $('#editCategory_name').removeClass('is-invalid');
-    //     $('#edit_category_help').text('');
-    //   }
-      
-    //   $('#editCategoryModal').on('hidden.bs.modal',function(){
-    //     onSuccessRemoveEditErrors();
-    //   })
-    
-    
-    //   // create error show
-    //   function onSuccessRemoveErrors(){
-    //     $('#category_name').removeClass('is-invalid');
-    //     $('#category_name').val('');
-    //     $('#category_name_help').text('');
-    //   }
-    //   function refreshErrors(){
-    //     $('#category_name').removeClass('is-invalid');
-    //     $('#category_name_help').text('');
-    //   }
-      
-    //   $('#myModal').on('hidden.bs.modal',function(){
-    //     onSuccessRemoveErrors();
-    //   })
       
       });

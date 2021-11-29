@@ -1,31 +1,22 @@
 @extends('adminSide.masterPage.master')
 
 @section('title')
-Awaiting Blogs
+Awaiting Admin Blogs
 @endsection
-
 
 @section('style')
 
 @endsection
 
-
 @section('content')
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Awaiting Blogs</h1>
                         
                     </div>
-
-
-
-
-
-
-
 <!-- start data table code-->
 <div class="card-body">
-<table class="table table-striped table-bordered w-100" id="awaiting">
+<table class="table table-striped table-bordered w-100" id="awaitingAdmin">
 <thead>
     <tr>
         <th scope="col">Image</th>
@@ -39,27 +30,27 @@ Awaiting Blogs
         <th scope="col">Delete</th>
     </tr>
 </thead>
-
-
 </table>
-
-
-
 </div>
 <!-- end data table code-->
-   
-
-
-
-
-
-@endsection
+   @endsection
 
 
 @section('scripts')
- <script type="text/javascript" src=" {{asset('js/awaitingBlogsA.js')}} "> </script>
-
-
-
-
+<script type="text/javascript" src=" {{asset('js/awaitingBlogsA.js')}} "> </script>
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,7 +24,7 @@ Dashboard
 
 
 <div class="col-xl-4 col-md-6 mb-4">
-    <a href="#" class="custom-anchor">
+    <a href="{{url('/userCreateBlogs')}}" class="custom-anchor">
     <div class="card border-left-primary shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -159,7 +159,7 @@ var myPieChart = new Chart(ctx, {
   data: {
     labels: ["Blogs", "Aproved Blogs", "Awaiting Blogs"],
     datasets: [{
-      data: [{{$blogsCount}},{{$approvedBlogsCount}},{{$awaitingBlogsCount}}],
+      data: [{{$blogsCount ?? '' }},{{$approvedBlogsCount ?? '' }},{{$awaitingBlogsCount ?? ''}}],
       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
       hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
       hoverBorderColor: "rgba(234, 236, 244)",
