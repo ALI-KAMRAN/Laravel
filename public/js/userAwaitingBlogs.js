@@ -45,7 +45,8 @@ $(document).ready(function(){
         {
           "render" : function (data,type,row,meta)
           {
-            return `<a href="${baseUrl}/userBlogBladeView/${row.id}" class="btn btn-primary btn-sm editCategory" id="${row.id}"><i class='fas fa-pencil-alt'></i>  Edit</a> `
+            return `<a href="${baseUrl}/userEditBlogBladeView/${row.id}" class="btn btn-primary btn-sm editCategory" id="${row.id}"><i class='fas fa-pencil-alt'></i>  Edit</a> `
+
           },
           
           "targets" : 7

@@ -5,16 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tag extends Model
+class Post extends Model
 {
     use HasFactory;
-    protected $table='tags';
     protected $fillable = [
-'name','slug'
+        'title', 'description'
     ];
-
-// taf has many blogs
-    public function blogs(){
-        return $this->belongsToMany('App\Models\blog');
-    }
 }

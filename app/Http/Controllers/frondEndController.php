@@ -5,23 +5,61 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\blog;
 use App\Models\cms;
+use App\Models\visitor;
 use App\Models\contact;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 class frondEndController extends Controller
 {
-    public function index(){
-        $blogs = blog::where('active',1)->get();
+
+public function index(){
+        $blogs = blog::where('active',1)->paginate(3);
+     $popularBlogs = visitor::selectRaw('blog_id,count(id) as count')
+     ->groupBy('blog_id')
+     ->orderBy('blog_id','Desc')
+     ->orderBy('count','Desc')
+     ->limit('4')
+     ->get();
+     $allBlogs = blog::orderBy('id' ,'Desc')->get();
         $footer = cms::where('section_name' , 'footer_section')->first();
-        return view('frondEnd.homePage', compact('blogs','footer'));
+        return view('frondEnd.homePage', compact('blogs','footer','popularBlogs','allBlogs'));
     }
-    public function blogDetailsview($url){
-     $blog=blog::where('url',$url)->first();
+    public function blogDetailsview(Request $request, $id){
+    $ip = $request->ip();
+     $blog=blog::where('id',$id)->first();
+     if($blog){
+        $this->insertUniqueViews($ip, $blog);
+        $views = visitor::where('blog_id' , $blog->id)->count();
       $footer = cms::where('section_name' , 'footer_section')->first();
-      return view('frondEnd.blogs_detail',compact('blog','footer'));
-        
+      $recentBlogs = blog::where('active', 1)->orderBy('id','Desc')->limit('3')->get();
+      return view('frondEnd.blogs_detail',compact('blog','footer','views','recentBlogs'));
+        }else{
+            abort(404);
+        }
     }
+
+// insertUniqueViews method
+    public function insertUniqueViews($ip, $blog){
+
+      $checkVisitor = visitor::where('blog_id',$blog->id)
+      ->where('ip',$ip)->get();
+      if(count($checkVisitor) > 0)
+      {
+        return true;
+      }else{
+        $uniqueView = visitor::create([
+           'blog_id' => $blog->id,
+           'ip' => $ip,
+]);
+        return true;
+      }
+
+    }
+
+
+
+
 
 public function cms(){
     $about_section = cms::where('section_name', 'about_section')->first();

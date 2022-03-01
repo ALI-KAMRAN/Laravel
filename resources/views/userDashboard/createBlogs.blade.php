@@ -135,20 +135,6 @@ Blogs
 </div>
 </div>
  
-
-
-
-
-
-
-
-
-   
-
-
-
-
-
 @endsection
 
 

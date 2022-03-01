@@ -4,14 +4,14 @@
 $(document).ready(function(){
     // datatable code
     
-    var table = $('#blogs').DataTable({
+    var table = $('#awaitingBlogsAdmin').DataTable({
       processing: true,
       serverSide: true,
       responsive: true,
       autoWidth: true,
       order: [0,'desc'],
      "ajax": {
-       'url' : baseUrl+'/getAllBlogs',
+       'url' : baseUrl+'/getAwaitingBlogsAdmin',
        'type': 'post',
        'data' : {
           '_token' : $("meta[name='csrf-token']").attr('content')
@@ -21,15 +21,16 @@ $(document).ready(function(){
       columns: [
          {data: 'image', name: 'image'},
           {data: 'id', name: 'id'},
-        {data: 'user_id', name: 'user_id'},
+         {data: 'user_id', name: 'user_id'},
           {data: 'category_id', name: 'category_id'},
-          
           {data: 'title', name: 'title'},
-         {data: 'short_description', name: 'short_description'},
+         
+          {data: 'short_description', name: 'short_description'},
           
           {data: 'active', name: 'active'},
           {data: 'action', name: 'action', orderable : false, searchable:false},
           {data: 'action1', name: 'action1', orderable : false, searchable:false},
+          
       ],
       "columnDefs" : [
 
@@ -46,7 +47,7 @@ $(document).ready(function(){
         {
           "render" : function (data,type,row,meta)
           {
-            return `<a href=${baseUrl}/editBlogsAdmin/${row.id} class="btn btn-primary btn-sm editBlogs"><i class='fas fa-pencil-alt'></i>  Edit</a> `
+            return `<a href="${baseUrl}/editBlog/${row.id}" class="btn btn-primary btn-sm"><i class='fas fa-pencil-alt'></i>  Edit</a> `
           },
           "targets" : 7
         },
@@ -54,10 +55,18 @@ $(document).ready(function(){
         {
           "render" : function (data,type,row,meta)
           {
-            return `<a href="#" class="btn btn-danger btn-sm deleteBlog" id="${row.id}"><i class='far fa-trash-alt'></i>  Delete</a> `
+            return `<a href="#" class="btn btn-danger btn-sm deleteTags" id="${row.id}"><i class='far fa-trash-alt'></i>  Delete</a> `
           },
           "targets" : 8
         },
+ {
+          "render" : function (data,type,row,meta)
+          {
+            return `<input type="checkbox" class="approve" id="${row.id}" name="approve"> Click `
+          },
+          "targets" : 9
+        },
+
     
     
       ]
@@ -68,15 +77,18 @@ $(document).ready(function(){
     
      
     
-      // delete blogs
     
-      $(document).on('click','.deleteBlog',function(e){
+     
+    
+      // delete tag
+    
+      $(document).on('click','.deleteTags',function(e){
     e.preventDefault();
     var id = $(this).attr('id');
     
     Swal.fire({
       title: 'Are you sure?',
-      text: "Delete to this blog!",
+      text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -85,7 +97,7 @@ $(document).ready(function(){
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url:baseUrl+'/deleteBlog/'+ id,
+          url:baseUrl+'/deleteTag/'+ id,
           type:'GET',
           processData:false,
           contentType:false,
@@ -93,7 +105,7 @@ $(document).ready(function(){
             Swal.fire({
               icon: 'success',
               title:'Success',
-              text: 'Blog was deleted successfully',
+              text: 'Tag was deleted successfully',
             })
             table.ajax.reload();
           },
@@ -115,7 +127,54 @@ $(document).ready(function(){
     
       });
     
-      
+      // publis blog admin click on check box that user submit a new blog
+
+      // delete tag
+    
+      $(document).on('change','.approve',function(e){
+    e.preventDefault();
+    var id = $(this).attr('id');
+    
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to publish a user blog!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, approve it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url:baseUrl+'/adminApproveUserBlog/'+ id,
+          type:'GET',
+          processData:false,
+          contentType:false,
+          success : function(data){
+            Swal.fire({
+              icon: 'success',
+              title:'Success',
+              text: 'blog was approved successfully',
+            })
+            table.ajax.reload();
+          },
+          error : function(data,textStatus,xhr)
+          { 
+            Swal.fire({
+              icon: 'error',
+              title:'not found',
+              text: 'sorry data was not found',
+            })
+        
+        
+          },
+        })
+      }
+    })
+    
+    
+    
+      });
 
 
 

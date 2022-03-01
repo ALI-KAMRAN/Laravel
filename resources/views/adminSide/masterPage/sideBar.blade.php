@@ -92,6 +92,12 @@
 </li>
 
 
+<li class="nav-item">
+    <a class="nav-link" href="{{ url('approvedBlogsAdmin ') }}">
+    <i class="fas fa-user-clock"></i>
+        <span>Approved Blogs</span></a>
+</li>
+
 
 <!-- Sidebar Toggler (Sidebar) -->
 <div class="text-center d-none d-md-inline">

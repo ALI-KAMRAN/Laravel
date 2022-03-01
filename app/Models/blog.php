@@ -20,4 +20,7 @@ class blog extends Model
             public function tags(){
                 return $this->belongsToMany('App\Models\tag');
             }
+            public function visitors(){
+                return $this->hasMany('App/Models/visitor');
+            }
 }

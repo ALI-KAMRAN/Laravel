@@ -1,7 +1,7 @@
 @extends('userDashboard.masterPage.master')
 
 @section('title')
-Awaiting Blogs
+All Blogs
 @endsection
 
 
@@ -13,7 +13,7 @@ Awaiting Blogs
 @section('content')
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Awaiting User Blogs</h1>
+                        <h1 class="h3 mb-0 text-gray-800">All User Blogs</h1>
                         
                     </div>
 
@@ -35,7 +35,6 @@ Awaiting Blogs
         <th scope="col">Short Description</th>
         <th scope="col">Description</th>
         <th scope="col">Status</th>
-        <th scope="col">Edit</th>
         <th scope="col">Delete</th>
     </tr>
 </thead>
@@ -57,7 +56,7 @@ Awaiting Blogs
 
 
 @section('scripts')
- <script type="text/javascript" src=" {{asset('js/allUserBlogs.js')}} "> </script>
+ <script type="text/javascript" src=" {{asset('js/userAllBlogs.js')}} "> </script>
 
 
 

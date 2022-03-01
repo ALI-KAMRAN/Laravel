@@ -7,6 +7,9 @@ use App\Http\Controllers\blogController;
 use App\Http\Controllers\frondEndController;
 use App\Http\Controllers\userDashBoard;
 use App\Http\Controllers\adminDashboard;
+use App\Http\Controllers\blogUpdate;
+use App\Models\blog;
+use App\Models\tag;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,15 +20,12 @@ use App\Http\Controllers\adminDashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// practive
-Route::get('kamran', function () {
-    return view('bootsrtap.data');
-});
 
 
 
 
-// end practive
+
+
 
 
 
@@ -44,9 +44,8 @@ Route::POST('/message/Contect-form', [frondEndController::class, 'submitContectF
 
 
 
-
-Route::get('', [frondEndController::class, 'index']);
- Route::get('/home/blogDetails/{url}', [frondEndController::class, 'blogDetailsview']);
+Route::get('/', [frondEndController::class, 'index']);
+ Route::get('blogDetails/{id}', [frondEndController::class, 'blogDetailsview']);
 
 
  Route::get('loginPage', function () {
@@ -75,12 +74,21 @@ Route:: group(['middleware' => 'auth'],function(){
 Route::get('userDashboard', [userDashBoard::class, 'userDashboard']);
 Route::get('userCreateBlogs', [userDashBoard::class, 'createBlogs']);
 Route::post("userBlogCreate", [blogController::class, 'create']);
+
+// All blogs for users
+Route::get('/allBlogsUser', [userDashBoard::class, 'viewAllBlogsUser']);
+Route::get("/getUserAllBlogs", [userDashBoard::class, 'getAllBlogsUser']);
+
 // Awaiting blogs for users
 Route::get('awaitingUserBlogs', [userDashBoard::class, 'awaitingBlogs']);
 Route::get("getUserAwaitingBlogs", [blogController::class, 'getBlogs']);
+
 // Approved blogs for users
 Route::get('approvedUserBlogs', [userDashBoard::class, 'approvedBlogsUser']);
 Route::get("getUserApprovedBlogs", [blogController::class, 'getApprovedBlogs']);
+
+// admin approve user blog
+Route::get('/adminApproveUserBlog/{id}', [adminDashboard::class, 'adminApproveUserBlog']);
 
 
 // user dashboard profile update
@@ -90,12 +98,15 @@ Route::POST('userprofileUpdate', [userDashBoard::class, 'userprofileUpdate']);
 Route::GET('userPasswordUpdae', [userDashBoard::class, 'userPasswordUpdae']);
 Route::POST('userPasswordUpdate', [userDashBoard::class, 'userPasswordUpdate']);
 
-
-
-Route::GET("/userDeleteBlogs/{id}", [blogController::class, 'deleteBlogs']);
-
 // edit Blogs for user
-Route::get('userBlogBladeView/{id}', [userDashBoard::class, 'userBlogBladeView']);
+Route::get('userEditBlogBladeView/{id}', [userDashBoard::class, 'userEditBlogBladeView']);
+Route::post("/user/blogUpdate", [blogController::class, 'blogUpdateAdmin']);
+
+// delete Blogs for user
+
+Route::GET('/userDeleteBlogs/{id}', [userDashBoard::class, 'deleteUserBlogs']);
+
+
 
 
 
@@ -150,9 +161,9 @@ Route::get("blog", [blogController::class, 'index']);
 Route::get("creatBlog", [blogController::class, 'createBlog']);
 Route::post("blogCreate", [blogController::class, 'create']);
 Route::post("getAllBlogs", [blogController::class, 'getAllBlogs']);
-Route::GET("/editBlog/{id}", [blogController::class, 'editBlogViews']);
-
-Route::GET("deleteBlogs/{id}", [blogController::class, 'deleteBlogs']);
+Route::GET("/editBlogsAdmin/{id}", [adminDashboard::class, 'editBlogsViewAdmin']);
+Route::post("blogUpdate", [blogController::class, 'blogUpdateAdmin']);
+Route::GET("/deleteBlog/{id}", [blogController::class, 'deleteBlogAdmin']);
 
 
 // admin profile update
@@ -163,10 +174,16 @@ Route::GET('passwordUpdae', [adminDashboard::class, 'passwordUpdateForm']);
 Route::POST('passwordUpdate', [adminDashboard::class, 'passwordUpdate']);
 
 
-// awaiting approval blogs list for admin
+// awaiting blogs list for admin
 
-Route::GET("awaitingBlogs", [blogController::class, 'awaitingBlogs']);
-Route::POST("getAwaitingBlogs", [blogController::class, 'getAwaitingApprovalBlogs']);
+Route::GET("/awaitingBlogs", [adminDashboard::class, 'awaitingBlogs']);
+Route::POST("/getAwaitingBlogsAdmin", [adminDashboard::class, 'getAwaitingApprovalBlogs']);
+
+//  approval blogs list for admin
+
+Route::GET("/approvedBlogsAdmin", [adminDashboard::class, 'approvedBlogsAdmin']);
+Route::POST("/getApprovedBlogsAdmin", [adminDashboard::class, 'getApprovalBlogsAdmin']);
+
 });
 });
 

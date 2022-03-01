@@ -17,6 +17,7 @@ class CreateBlogsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('tag_id');
             $table->string('title',255);
             $table->string('url',255);
             $table->string('image',255);
@@ -29,6 +30,7 @@ class CreateBlogsTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });
     }
 

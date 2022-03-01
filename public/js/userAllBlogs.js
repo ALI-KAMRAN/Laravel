@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function(){
     // datatable code
     
@@ -8,11 +11,8 @@ $(document).ready(function(){
       autoWidth: true,
       order: [0,'desc'],
      "ajax": {
-       'url' : baseUrl+'/getAllUserBlogs',
+       'url' : baseUrl+'/getUserAllBlogs',
        'type': 'get',
-       'data': {
-      '_token' : $("meta[name='csrf-token']").attr('content')
-       },
      },
     
       columns: [
@@ -25,7 +25,7 @@ $(document).ready(function(){
           {data: 'description', name: 'description'},
           {data: 'active', name: 'active'},
          {data: 'action', name: 'action', orderable : false, searchable:false},
-          {data: 'action1', name: 'action1', orderable : false, searchable:false},
+
       ],
       "columnDefs" : [
         {
@@ -42,43 +42,51 @@ $(document).ready(function(){
           
           "targets" : 0
         },
-        {
-          "render" : function (data,type,row,meta)
-          {
-            return `<a href="" class="btn btn-primary btn-sm editBlogs"  id="${row.id}"><i class='fas fa-pencil-alt'></i>  Edit</a> `
-          },
-          
-          "targets" : 7
-        },
+       
     
         {
           "render" : function (data,type,row,meta)
           {
-            return `<a href="#" class="btn btn-danger btn-sm deleteBlogs" id="${row.id}"><i class='far fa-trash-alt'></i>  Delete</a> `
+            return `<a href="#" class="btn btn-danger btn-sm userBlogsDelete" id="${row.id}"><i class='far fa-trash-alt'></i>  Delete</a> `
+
           },
-          "targets" : 8
+          "targets" : 7
         },
     
     
       ]
       
     });
-
-
-
- // get Bolg for update
-      $(document).on('click', '.editBlogs', function(e){
-        e.preventDefault();
-        var id = $(this).attr('id');
+    
+    
+    // delete blogs
+    
+      $(document).on('click','.userBlogsDelete',function(e){
+    e.preventDefault();
+    var id = $(this).attr('id');
+    
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Delete to this blog!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
         $.ajax({
-          url : baseUrl+'/getBlog/'+id,
-          type : 'GET',
-          processData : false,
-          contentType : false,
-          success:function(data){
-            $('#Blog_id').val(data.id);
-            $('#edit_blog_name').val(data.name);
-            $('#editBlogModal').modal('show');
+          url:baseUrl+'/userDeleteBlogs/'+ id,
+          type:'GET',
+          processData:false,
+          contentType:false,
+          success : function(data){
+            Swal.fire({
+              icon: 'success',
+              title:'Success',
+              text: 'Blog was deleted successfully',
+            })
+            table.ajax.reload();
           },
           error : function(data,textStatus,xhr)
           { 
@@ -87,21 +95,16 @@ $(document).ready(function(){
               title:'not found',
               text: 'sorry data was not found',
             })
-    
-    
+        
+        
           },
-          
-        });
+        })
+      }
+    })
+    
+    
+    
       });
-
-
-
-
-
-
-
-
-
-
-
-    });
+    
+      
+      });

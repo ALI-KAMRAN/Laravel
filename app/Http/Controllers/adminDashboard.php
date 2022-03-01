@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\role;
 use App\Models\User;
+use App\Models\blog;
+use App\Models\tag;
+use App\Models\category;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -102,5 +105,113 @@ $users= role::where('id',2)->first()->users()->get();  // show only 2nd user aft
 
       }
     }
+
+
+
+// awaiting blogs list view blade for admin
+
+ public function awaitingBlogs(){
+    $blogs = blog::all();
+    return view('adminSide.awaitingBlogs',compact('blogs'));
+ }
+
+ // show awaiting blogs list for admin
+
+ public function getAwaitingApprovalBlogs(){
+    $blogs= blog::where('active', 0)->get();
+    return Datatables::of($blogs)
+    ->editColumn('user_id', function ($blog){
+            return $blog->user->name;
+    })
+    
+    ->editColumn('category_id', function ($blog){
+            return $blog->category->name;
+    })
+    ->editColumn('active', function ($blog){
+            if($blog->active == "1"){
+              return "<span class='badge badge-success badge-pill'>Active</span>";
+            }else{
+  return "<span class='badge badge-dark badge-pill'>Awating Approval</span>";
+  
+            }
+    })
+  
+    ->editColumn('short_description', function ($blog){
+            return Str::words($blog->short_description, 5, '.....');
+    })
+    ->editColumn('description', function ($blog){
+            return Str::words($blog->short_description, 5, '.....');
+    })
+    ->rawColumns(['description','active'])
+    ->make(true);
+ }
+
+
+
+// approved blogs list view blade for admin
+
+ public function approvedBlogsAdmin(){
+    $blogs = blog::all();
+    return view('adminSide.approvedBlogs',compact('blogs'));
+ }
+
+ // show  approvel blogs list for admin
+
+ public function getApprovalBlogsAdmin(){
+    $blogs= blog::where('active', 1)->get();
+    return Datatables::of($blogs)
+    ->editColumn('user_id', function ($blog){
+            return $blog->user->name;
+    })
+    
+    ->editColumn('category_id', function ($blog){
+            return $blog->category->name;
+    })
+    ->editColumn('active', function ($blog){
+            if($blog->active == "1"){
+              return "<span class='badge badge-success badge-pill'>Active</span>";
+            }else{
+  return "<span class='badge badge-dark badge-pill'>Awating Approval</span>";
+  
+            }
+    })
+  
+    ->editColumn('short_description', function ($blog){
+            return Str::words($blog->short_description, 5, '.....');
+    })
+    ->editColumn('description', function ($blog){
+            return Str::words($blog->short_description, 5, '.....');
+    })
+    ->rawColumns(['description','active'])
+    ->make(true);
+ }
+
+
+// admin approve user blog clicking checkbox
+
+ public function adminApproveUserBlog($id){
+    $blog = blog::where('id', $id)->first();
+    if($blog){
+        $blog->active = 1;
+        $blog->save();
+        return "Success";
+    }else{
+        return Response::json(['error' => 'Not Found'], 404);
+    }
+ }
+
+
+
+
+
+
+public function editBlogsViewAdmin($id){
+    $categories = category::all();
+    $tags = tag::all();
+    $blogs = blog::find($id);
+    return view('adminSide.editBlogs',compact('categories','tags','blogs'));
+
+}
+
 
 }

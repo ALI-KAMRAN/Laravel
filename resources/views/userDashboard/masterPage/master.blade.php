@@ -134,6 +134,9 @@ baseUrl = {!! json_encode(url('/')) !!}
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap4.min.js"></script>
+
+
+
     @yield('scripts')
 </body>
 
